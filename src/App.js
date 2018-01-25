@@ -1,14 +1,30 @@
 import React, { Component } from 'react';
 import logo from './logo.svg';
 import './App.css';
-
+import { getSelectionText } from './utils'
+import _ from 'lodash'
 class App extends Component {
   constructor() {
     super();
     this.state = {
       data: [],
-      idx: -1
+      idx: -1,
+      selectedText: '',
+      runs: {}
     }
+    document.onselectionchange = _.debounce(this.handleTextSelected, 500)
+  }
+  handleTextSelected = (e) => {
+    const range = getSelectionText()
+    if (range) {
+      const { startContainer, endContainer, startOffset, endOffset } = range
+      const startIdx = parseInt(startContainer.parentNode.id) + startOffset
+      const endIdx = parseInt(endContainer.parentNode.id) + endOffset
+      console.log(startIdx, endIdx)
+    }
+    this.setState({
+      selectedText: getSelectionText()
+    })
   }
   handleFileSelect = (e) => {
     const file = e.target.files[0]
@@ -27,14 +43,19 @@ class App extends Component {
   }
   render() {
     const { idx, data } = this.state
+    let len = 0
     return (
       <div className="App">
         <input type="file" id="file" onChange={this.handleFileSelect} />
-        <div>
+        {idx >= 0 && data && data[idx] ? <div id={`article-${idx}`}>
           {
-            idx >= 0 && data && data[idx] ? data[idx]["content"] : ''
+            data[idx]["content"].split('\n').map((x, i) => {
+              const id = len
+              len += x.length
+              return <p key={i} id={id}>{x}</p>
+            })
           }
-        </div>
+        </div> : null}
       </div>
     );
   }
