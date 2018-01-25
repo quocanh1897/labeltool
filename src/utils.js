@@ -7,3 +7,7 @@ export function getSelectionText() {
     console.log(selRange)
     return selRange
 }
+
+export function trimNewLine(x) {
+    return x.replace(/^[\r\n]+|[\r\n]+$/gm, '');
+}
