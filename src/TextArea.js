@@ -10,7 +10,8 @@ export default class TextArea extends Component {
 			runs: {
 				0: {
 					end: text.length,
-					type: ''
+					type: 'normal',
+					prev: null,
 				}
 			}
 		}
@@ -28,10 +29,61 @@ export default class TextArea extends Component {
 			const startIdx = startRunIdx + startRunLineOffset + startOffset
 			const endIdx = endRunIdx + endRunLineOffset + endOffset
 			console.log(startIdx, endIdx)
-			//First case: if the selection is in the middle of a run, then it will split the run into 3 new runs.
-			const startRun = this.state.runs[startRunIdx]
-			const endRun = this.state.runs[endRunIdx]
-
+			const { runs } = this.state
+			const startRun = runs[startRunIdx]
+			console.log('Start Run', startRunIdx)
+			const endRun = runs[endRunIdx]
+			const newEndRun = { ...endRun, prev: startIdx }
+			let i = startRun['end']
+			while (i && i <= endRunIdx && runs[i]) {
+				const l = runs[i]['end']
+				delete runs[i]
+				i = l
+			}
+			startRun['end'] = startIdx
+			if (!runs[endIdx]) {
+				runs[endIdx] = newEndRun
+				if (runs[newEndRun['end']]) {
+					runs[newEndRun['end']]['prev'] = endIdx
+				}
+			} else {
+				runs[endIdx].prev = startIdx
+			}
+			if (!runs[startIdx]) {
+				runs[startIdx] = {
+					type: 'blue',
+					end: endIdx,
+					prev: startRunIdx
+				}
+			} else {
+				runs[startIdx].type = 'blue'
+				runs[startIdx].end = endIdx
+			}
+			i = startIdx
+			// Merge run before
+			while (i && runs[i] && runs[i].prev) {
+				const prev = runs[i].prev
+				if (runs[prev].type === runs[i].type) {
+					runs[prev].end = runs[i].end
+					delete runs[i]
+					i = prev
+				} else break
+			}
+			// Merge run after
+			console.log(i)
+			while (i && runs[i]) {
+				const next = runs[i].end
+				if (runs[next] && runs[next].type === runs[i].type) {
+					runs[i].end = runs[next].end
+					delete runs[next]
+				} else if (runs[next]) {
+					runs[next].prev = i
+					break
+				} else {
+					break
+				}
+			}
+			this.setState({ runs })
 		}
 	}
 	render() {
@@ -43,21 +95,22 @@ export default class TextArea extends Component {
 				<div id={this.props.id}>
 					{
 						Object.keys(runs).map(x => {
-							const { end } = runs[x]
+							const { end, type } = runs[x]
+							const color = type === 'blue' ? type : 'black'
 							let len = 0
 							const temp = currentRuns
-							currentRuns += end
+							currentRuns = end
 							const parts = text.substring(x, end).split('\n')
 							return parts.map((x, i) => {
 								const id = len
-								len += x.length
+								len += x.length + 1
 								if (i < parts.length - 1) {
 									return ([
-										<span key={`${temp}-${i}`} id={`${temp}-${id}`}>{x}</span>,
+										<span key={`${temp}-${i}`} id={`${temp}-${id}`} style={{ color: color }}>{x}</span>,
 										<br key={`br${temp}-${i}`} />
 									])
 								} else {
-									<span key={`${temp}-${i}`} id={`${temp}-${id}`}>{x}</span>
+									return <span key={`${temp}-${i}`} id={`${temp}-${id}`} style={{ color: color }}>{x}</span>
 								}
 							})
 						})
