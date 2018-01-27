@@ -10,8 +10,8 @@
 ```json
 {
   "address": {
-    "color": "#00acc1",
-    "shortcut": "D"
+    "color": "#00acc1", // Color of text
+    "shortcut": "D" // Keyboard shortcut
   },
   "surrounding": {
     "color": "#d32f2f",
