@@ -18,7 +18,16 @@ export default class TextArea extends Component {
 			}
 		}
 	}
-	handleTextSelected = (e) => {
+	_createButton = (name, idx) => {
+		return <button
+			onClick={e => this._handleTextSelected(name)}
+			key={`${name}-${idx}`}
+			style={{ color: this.props.categories[name]['color'] }}
+		>
+			{name}
+		</button>
+	}
+	_handleTextSelected = (name) => {
 		console.log(this.container.contains)
 		const range = getSelectionText()
 		if (!range) return
@@ -26,10 +35,10 @@ export default class TextArea extends Component {
 		const { startContainer, endContainer, startOffset, endOffset } = range
 		const startContainerId = startContainer.parentNode.id.split('-')
 		const endContainerId = endContainer.parentNode.id.split('-')
-		const startRunIdx = parseInt(startContainerId[0])
-		const startRunLineOffset = parseInt(startContainerId[1])
-		const endRunIdx = parseInt(endContainerId[0])
-		const endRunLineOffset = parseInt(endContainerId[1])
+		const startRunIdx = parseInt(startContainerId[0], 10)
+		const startRunLineOffset = parseInt(startContainerId[1], 10)
+		const endRunIdx = parseInt(endContainerId[0], 10)
+		const endRunLineOffset = parseInt(endContainerId[1], 10)
 		const startIdx = startRunIdx + startRunLineOffset + startOffset
 		const endIdx = endRunIdx + endRunLineOffset + endOffset
 		console.log(startIdx, endIdx)
@@ -55,12 +64,12 @@ export default class TextArea extends Component {
 		}
 		if (!runs[startIdx]) {
 			runs[startIdx] = {
-				type: 'blue',
+				type: name,
 				end: endIdx,
 				prev: startRunIdx
 			}
 		} else {
-			runs[startIdx].type = 'blue'
+			runs[startIdx].type = name
 			runs[startIdx].end = endIdx
 		}
 		i = startIdx
@@ -95,12 +104,12 @@ export default class TextArea extends Component {
 		let currentRuns = 0
 		return (
 			[
-				<button onClick={this.handleTextSelected}>Mark</button>,
+				Object.keys(this.props.categories).map(this._createButton),
 				<div id={`${this.state.id}${this.props.id}`} ref={(container) => this.container = container}>
 					{
 						Object.keys(runs).map(x => {
 							const { end, type } = runs[x]
-							const color = type === 'blue' ? type : 'black'
+							const color = this.props.categories[type]['color']
 							let len = 0
 							const temp = currentRuns
 							currentRuns = end

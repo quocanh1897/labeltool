@@ -1,12 +1,10 @@
-[
-  {
+{
+  "address": {
     "color": "#00acc1",
-    "name": "address",
     "shortcut": "D"
   },
-  {
+  "surrounding": {
     "color": "#d32f2f",
-    "name": "surrounding",
     "shortcut": "E"
   }
-]
+}

@@ -7,10 +7,15 @@ import TextArea from './TextArea'
 class App extends Component {
   constructor() {
     super();
+    const categories = require('./categories.json')
+    categories['normal'] = {
+      'color': '#000000',
+      'shortcut': 'Q'
+    }
     this.state = {
       data: [],
       idx: -1,
-      categories: require('./categories.json')
+      categories
     }
   }
 
