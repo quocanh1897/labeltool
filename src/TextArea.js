@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { trimNewLine, getSelectionText, checkParentRelation } from './utils'
-
+import './TextArea.css'
 export default class TextArea extends Component {
 	container = null
 	shortcutListener = []
@@ -49,11 +49,11 @@ export default class TextArea extends Component {
 			key={`${name}-${idx}`}
 			style={{ color: this.props.categories[name]['color'] }}
 		>
-			{name}
+			{`${name} (${this.props.categories[name]['shortcut']})`}
 		</button>
 	}
 	_handleTextSelected = (name) => {
-		console.log(this.container.contains)
+		// console.log(this.container.contains)
 		const range = getSelectionText()
 		if (!range) return
 		if (!checkParentRelation(this.container, range.commonAncestorContainer)) return
@@ -66,11 +66,11 @@ export default class TextArea extends Component {
 		const endRunLineOffset = parseInt(endContainerId[1], 10)
 		const startIdx = startRunIdx + startRunLineOffset + startOffset
 		const endIdx = endRunIdx + endRunLineOffset + endOffset
-		console.log(startIdx, endIdx)
-		if(!startIdx && !endIdx) return
+		// console.log(startIdx, endIdx)
+		if (!startIdx && !endIdx) return
 		const { runs } = this.state
 		const startRun = runs[startRunIdx]
-		console.log('Start Run', startRunIdx)
+		// console.log('Start Run', startRunIdx)
 		const endRun = runs[endRunIdx]
 		const newEndRun = { ...endRun, prev: startIdx }
 		let i = startRun['end']
@@ -99,11 +99,11 @@ export default class TextArea extends Component {
 			runs[startIdx].end = endIdx
 		}
 		i = startIdx
-		console.log('Merge start at', i)
+		// console.log('Merge start at', i)
 		// Merge run before
 		while (i && runs[i] && runs[i].prev != null) {
 			const prev = runs[i].prev
-			console.log(prev)
+			// console.log(prev)
 			if (runs[prev].type === runs[i].type) {
 				runs[prev].end = runs[i].end
 				delete runs[i]
@@ -111,7 +111,7 @@ export default class TextArea extends Component {
 			} else break
 		}
 		// Merge run after
-		console.log(i)
+		// console.log(i)
 		while (runs[i]) {
 			const next = runs[i].end
 			if (runs[next] && runs[next].type === runs[i].type) {
@@ -145,7 +145,7 @@ export default class TextArea extends Component {
 						}
 					})
 				}}>Reset</button>,
-				<div id={this.props.id} ref={(container) => this.container = container}>
+				<div id={this.props.id} ref={(container) => this.container = container} className='text-container'>
 					{
 						Object.keys(runs).map(x => {
 							const { end, type } = runs[x]
