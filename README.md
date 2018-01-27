@@ -1,5 +1,11 @@
 # Tool for text annotation
 - Click `Choose File` button to choose the data file
+- The data file must a json array contains many document, each document is an object that has `content` attribute
+```json
+{
+  "content": "Some content"
+}
+```
 - The `categories.json` file contains all the tags that we want to use. It has the form
 ```json
 {
