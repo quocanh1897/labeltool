@@ -1,10 +1,10 @@
 {
   "address": {
     "color": "#00acc1",
-    "shortcut": "D"
+    "shortcut": "1"
   },
   "surrounding": {
     "color": "#d32f2f",
-    "shortcut": "E"
+    "shortcut": "2"
   }
 }

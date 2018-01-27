@@ -9,7 +9,7 @@ export default class TextArea extends Component {
 		const text = props.text.split('\n').map(trimNewLine).join('\n')
 		this.state = {
 			text,
-			runs: {
+			runs: props.runs ? props.runs : {
 				0: {
 					end: text.length,
 					type: 'normal',

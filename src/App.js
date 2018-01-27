@@ -30,7 +30,7 @@ class App extends Component {
           data,
           name: file.name,
           idx: 0,
-          runs: data.map(x => null)
+          runs: data.map(x => x['tags'])
         })
       };
     })(file);
