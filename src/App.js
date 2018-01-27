@@ -3,12 +3,14 @@ import logo from './logo.svg';
 import './App.css';
 import _ from 'lodash'
 import TextArea from './TextArea'
+
 class App extends Component {
   constructor() {
     super();
     this.state = {
       data: [],
-      idx: -1
+      idx: -1,
+      categories: require('./categories.json')
     }
   }
 
@@ -28,14 +30,18 @@ class App extends Component {
 
   }
   render() {
-    const { idx, data } = this.state
+    const { idx, data, categories } = this.state
     let len = 0
     return (
       <div className="App">
 
         <input type="file" id="file" onChange={this.handleFileSelect} />
         {idx >= 0 && data && data[idx]
-          ? <TextArea id={`article-${idx}`} text={data[idx]['content']} />
+          ? <TextArea
+            id={`article-${idx}`}
+            text={data[idx]['content']}
+            categories={categories}
+          />
           : null}
       </div>
     );
