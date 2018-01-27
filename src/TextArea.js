@@ -67,6 +67,7 @@ export default class TextArea extends Component {
 		const startIdx = startRunIdx + startRunLineOffset + startOffset
 		const endIdx = endRunIdx + endRunLineOffset + endOffset
 		console.log(startIdx, endIdx)
+		if(!startIdx && !endIdx) return
 		const { runs } = this.state
 		const startRun = runs[startRunIdx]
 		console.log('Start Run', startRunIdx)
