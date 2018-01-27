@@ -20,9 +20,11 @@ export default class TextArea extends Component {
 	}
 
 	componentWillMount() {
-		Object.keys(this.props.categories).map(
+		Object.keys(this.props.categories).forEach(
 			x => {
-				document.addEventListener("keydown", this._handleKeyDown(x))
+				const listener = this._handleKeyDown(x)
+				document.addEventListener("keydown", listener)
+				this.shortcutListener.push(listener)
 			}
 		)
 	}
@@ -37,7 +39,8 @@ export default class TextArea extends Component {
 
 
 	componentWillUnmount() {
-		document.removeEventListener("keydown", this._handleKeyDown);
+		this.shortcutListener.forEach(listener => document.removeEventListener("keydown", listener))
+		this.shortcutListener = []
 	}
 
 	_createButton = (name, idx) => {
