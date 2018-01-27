@@ -49,7 +49,7 @@ class App extends Component {
   saveAll = (e) => {
     const { data, runs, name } = this.state
     const list = data.map((x, i) => ({ ...data[i], tags: runs[i] }))
-    download(JSON.stringify(list), `${name}.json`, 'application/json')
+    download(JSON.stringify(list), name, 'application/json')
   }
 
   render() {
