@@ -98,9 +98,11 @@ export default class TextArea extends Component {
 			runs[startIdx].end = endIdx
 		}
 		i = startIdx
+		console.log('Merge start at', i)
 		// Merge run before
-		while (i && runs[i] && runs[i].prev) {
+		while (i && runs[i] && runs[i].prev != null) {
 			const prev = runs[i].prev
+			console.log(prev)
 			if (runs[prev].type === runs[i].type) {
 				runs[prev].end = runs[i].end
 				delete runs[i]
@@ -109,7 +111,7 @@ export default class TextArea extends Component {
 		}
 		// Merge run after
 		console.log(i)
-		while (i && runs[i]) {
+		while (runs[i]) {
 			const next = runs[i].end
 			if (runs[next] && runs[next].type === runs[i].type) {
 				runs[i].end = runs[next].end
@@ -126,10 +128,22 @@ export default class TextArea extends Component {
 	}
 	render() {
 		const { text, runs } = this.state
+		const _this = this
 		let currentRuns = 0
 		return (
 			[
 				Object.keys(this.props.categories).map(this._createButton),
+				<button onClick={e => {
+					_this.setState({
+						runs: {
+							0: {
+								end: text.length,
+								type: 'normal',
+								prev: null,
+							}
+						}
+					})
+				}}>Reset</button>,
 				<div id={this.props.id} ref={(container) => this.container = container}>
 					{
 						Object.keys(runs).map(x => {
