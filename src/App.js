@@ -3,7 +3,7 @@ import logo from './logo.svg';
 import './App.css';
 import _ from 'lodash'
 import TextArea from './TextArea'
-
+import { download } from './utils'
 class App extends Component {
   constructor() {
     super();
@@ -28,6 +28,7 @@ class App extends Component {
         const data = JSON.parse(e.target.result)
         _this.setState({
           data,
+          name: file.name,
           idx: 0,
           runs: data.map(x => null)
         })
@@ -45,6 +46,11 @@ class App extends Component {
       this.setState({ runs })
     }
   }
+  saveAll = (e) => {
+    const { data, runs, name } = this.state
+    const list = data.map((x, i) => ({ ...data[i], tags: runs[i] }))
+    download(JSON.stringify(list), `${name}.json`, 'application/json')
+  }
 
   render() {
     const { idx, data, categories, runs } = this.state
@@ -61,6 +67,9 @@ class App extends Component {
             </button>,
             <button key='next' disabled={idx === data.length} onClick={e => this.setState({ idx: idx + 1 })}>
               Next
+            </button>,
+            <button key='save' onClick={this.saveAll}>
+              Save
             </button>
           ]
         }
