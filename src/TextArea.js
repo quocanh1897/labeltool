@@ -1,14 +1,14 @@
 import React, { Component } from 'react'
-import { trimNewLine, getSelectionText, generateRandomString, checkParentRelation } from './utils'
+import { trimNewLine, getSelectionText, checkParentRelation } from './utils'
 
 export default class TextArea extends Component {
 	container = null
+	shortcutListener = []
 	constructor(props) {
 		super(props)
 		const text = props.text.split('\n').map(trimNewLine).join('\n')
 		this.state = {
 			text,
-			id: generateRandomString(10),
 			runs: {
 				0: {
 					end: text.length,
@@ -18,6 +18,28 @@ export default class TextArea extends Component {
 			}
 		}
 	}
+
+	componentWillMount() {
+		Object.keys(this.props.categories).map(
+			x => {
+				document.addEventListener("keydown", this._handleKeyDown(x))
+			}
+		)
+	}
+
+	_handleKeyDown = (name) => {
+		return e => {
+			if (e.key === this.props.categories[name]['shortcut'].toLowerCase()) {
+				this._handleTextSelected(name)
+			}
+		}
+	}
+
+
+	componentWillUnmount() {
+		document.removeEventListener("keydown", this._handleKeyDown);
+	}
+
 	_createButton = (name, idx) => {
 		return <button
 			onClick={e => this._handleTextSelected(name)}
@@ -105,7 +127,7 @@ export default class TextArea extends Component {
 		return (
 			[
 				Object.keys(this.props.categories).map(this._createButton),
-				<div id={`${this.state.id}${this.props.id}`} ref={(container) => this.container = container}>
+				<div id={this.props.id} ref={(container) => this.container = container}>
 					{
 						Object.keys(runs).map(x => {
 							const { end, type } = runs[x]
