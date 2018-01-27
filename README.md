@@ -1,6 +1,6 @@
 # Tool for text annotation
 - Click `Choose File` button to choose the data file
-- The data file must a json array contains many document, each document is an object that has `content` attribute
+- The data file must a json array contains many documents, each document is an object that has `content` attribute
 ```javascript
 {
   "content": "Some content"
@@ -23,3 +23,4 @@
 - Click previous or next to navigate between different document.
 - After we have done, click `Save` and choose a location to save the data.
 - Click `Reset` if we want to erase the tags on current document.
+- To run the project, first install `NodeJS` then run `npm install` or `yarn`
