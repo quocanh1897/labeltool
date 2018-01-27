@@ -1,3 +1,6 @@
 .text-container {
-  
+  border: 1px solid #ccc;
+  border-radius: 7px;
+  margin: 5px;
+  padding: 7px 14px;
 }

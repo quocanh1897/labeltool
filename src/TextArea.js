@@ -18,6 +18,22 @@ export default class TextArea extends Component {
 			}
 		}
 	}
+	componentWillReceiveProps(nextProps) {
+		if (this.props.text !== nextProps.text) {
+			const text = nextProps.text.split('\n').map(trimNewLine).join('\n')
+			this.setState({
+				text,
+				runs: nextProps.runs ? nextProps.runs : {
+					0: {
+						end: text.length,
+						type: 'normal',
+						prev: null,
+					}
+				}
+			})
+		}
+	}
+
 
 	componentWillMount() {
 		Object.keys(this.props.categories).forEach(
@@ -125,7 +141,7 @@ export default class TextArea extends Component {
 			}
 		}
 		this.setState({ runs })
-
+		this.props.onSaved(runs)
 	}
 	render() {
 		const { text, runs } = this.state
@@ -134,7 +150,7 @@ export default class TextArea extends Component {
 		return (
 			[
 				Object.keys(this.props.categories).map(this._createButton),
-				<button onClick={e => {
+				<button key='Reset-btn' onClick={e => {
 					_this.setState({
 						runs: {
 							0: {
@@ -145,7 +161,7 @@ export default class TextArea extends Component {
 						}
 					})
 				}}>Reset</button>,
-				<div id={this.props.id} ref={(container) => this.container = container} className='text-container'>
+				<div key='text-container' id={this.props.id} ref={(container) => this.container = container} className='text-container'>
 					{
 						Object.keys(runs).map(x => {
 							const { end, type } = runs[x]
@@ -160,7 +176,7 @@ export default class TextArea extends Component {
 								if (i < parts.length - 1) {
 									return ([
 										<span key={`${temp}-${i}`} id={`${temp}-${id}`} style={{ color: color }}>{x}</span>,
-										<br key={`br${temp}-${i}`} />
+										<br key={`${temp}br${i}`} />
 									])
 								} else {
 									return <span key={`${temp}-${i}`} id={`${temp}-${id}`} style={{ color: color }}>{x}</span>
