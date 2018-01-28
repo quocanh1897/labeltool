@@ -14,10 +14,13 @@ export default class TextArea extends Component {
       end: PropTypes.number.isRequired,
       type: PropTypes.string.isRequired,
       prev: PropTypes.number,
-    })).isRequired,
+    })),
     text: PropTypes.string.isRequired,
     id: PropTypes.string.isRequired,
     onSaved: PropTypes.func.isRequired,
+  }
+  static defaultProps = {
+    runs: null,
   }
   constructor(props) {
     super(props);
