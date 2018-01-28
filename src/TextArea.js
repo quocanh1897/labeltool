@@ -18,22 +18,27 @@ export default class TextArea extends Component {
     text: PropTypes.string.isRequired,
     id: PropTypes.string.isRequired,
     onSaved: PropTypes.func.isRequired,
-  }
+  };
   static defaultProps = {
     runs: null,
-  }
+  };
   constructor(props) {
     super(props);
-    const text = props.text.split('\n').map(trimNewLine).join('\n');
+    const text = props.text
+      .split('\n')
+      .map(trimNewLine)
+      .join('\n');
     this.state = {
       text,
-      runs: props.runs ? props.runs : {
-        0: {
-          end: text.length,
-          type: 'normal',
-          prev: null,
+      runs: props.runs
+        ? props.runs
+        : {
+          0: {
+            end: text.length,
+            type: 'normal',
+            prev: null,
+          },
         },
-      },
     };
   }
 
@@ -46,32 +51,38 @@ export default class TextArea extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    const text = nextProps.text.split('\n').map(trimNewLine).join('\n');
+    const text = nextProps.text
+      .split('\n')
+      .map(trimNewLine)
+      .join('\n');
     this.setState({
       text,
-      runs: nextProps.runs ? nextProps.runs : {
-        0: {
-          end: text.length,
-          type: 'normal',
-          prev: null,
+      runs: nextProps.runs
+        ? nextProps.runs
+        : {
+          0: {
+            end: text.length,
+            type: 'normal',
+            prev: null,
+          },
         },
-      },
     });
   }
 
   componentWillUnmount() {
-    this.shortcutListener.forEach(listener => document.removeEventListener('keydown', listener));
+    this.shortcutListener.forEach(listener =>
+      document.removeEventListener('keydown', listener));
     this.shortcutListener = [];
   }
 
-  container = null
-  shortcutListener = []
+  container = null;
+  shortcutListener = [];
 
   handleKeyDown = name => (e) => {
     if (e.key === this.props.categories[name].shortcut.toLowerCase()) {
       this.handleTextSelected(name);
     }
-  }
+  };
 
   createButton = (name, idx) => (
     <button
@@ -83,12 +94,14 @@ export default class TextArea extends Component {
     >
       {`${name} (${this.props.categories[name].shortcut})`}
     </button>
-  )
+  );
   handleTextSelected = (name) => {
     // console.log(this.container.contains)
     const range = getSelectionText();
     if (!range) return;
-    if (!checkParentRelation(this.container, range.commonAncestorContainer)) return;
+    if (!checkParentRelation(this.container, range.commonAncestorContainer)) {
+      return;
+    }
     const {
       startContainer, endContainer, startOffset, endOffset,
     } = range;
@@ -160,7 +173,7 @@ export default class TextArea extends Component {
     }
     this.setState({ runs });
     this.props.onSaved(runs);
-  }
+  };
   render() {
     const { text, runs } = this.state;
     const newLocal = this;
@@ -175,32 +188,42 @@ export default class TextArea extends Component {
           }}
           className="text-container col-xs-9 col-sm-9 col-md-9 col-lg-9"
         >
-          {
-            Object.keys(runs).map((start) => {
-              const { end, type } = runs[start];
-              const { color } = this.props.categories[type];
-              let len = 0;
-              const temp = currentRuns;
-              currentRuns = end;
-              const parts = text.substring(start, end).split('\n');
-              return parts.map((x, i) => {
-                const id = len;
-                len += x.length + 1;
-                if (i < parts.length - 1) {
-                  return ([
-                    <span key={`${temp}-${id}`} id={`${temp}-${id}`} style={{ color }}>{x}</span>,
-                    <br key={`${temp}br${id}`} />,
-                  ]);
-                }
-                return <span key={`${temp}-${id}`} id={`${temp}-${id}`} style={{ color }}>{x}</span>;
-              });
-            })
-          }
+          {Object.keys(runs).map((start) => {
+            const { end, type } = runs[start];
+            const { color } = this.props.categories[type];
+            let len = 0;
+            const temp = currentRuns;
+            currentRuns = end;
+            const parts = text.substring(start, end).split('\n');
+            return parts.map((x, i) => {
+              const id = len;
+              len += x.length + 1;
+              if (i < parts.length - 1) {
+                return [
+                  <span
+                    key={`${temp}-${id}`}
+                    id={`${temp}-${id}`}
+                    style={{ backgroundColor: color }}
+                  >
+                    {x}
+                  </span>,
+                  <br key={`${temp}br${id}`} />,
+                ];
+              }
+              return (
+                <span
+                  key={`${temp}-${id}`}
+                  id={`${temp}-${id}`}
+                  style={{ backgroundColor: color }}
+                >
+                  {x}
+                </span>
+              );
+            });
+          })}
         </div>
         <div className="col-xs-2 col-sm-2 col-md-2 col-lg-2">
-          {
-            Object.keys(this.props.categories).map(this.createButton)
-          }
+          {Object.keys(this.props.categories).map(this.createButton)}
           <button
             type="button"
             className="btn btn-default"
@@ -215,10 +238,10 @@ export default class TextArea extends Component {
                   },
                 },
               });
-            }
-            }
-          > Reset
-          </button >
+            }}
+          >
+            Reset
+          </button>
         </div>
       </div>
     );

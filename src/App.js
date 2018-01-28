@@ -8,14 +8,13 @@ class App extends Component {
   constructor() {
     super();
     categories.normal = {
-      color: '#000000',
+      color: '#FFFFFF',
       shortcut: 'Q',
     };
     this.state = {
       idx: -1,
     };
   }
-
 
   handleFileSelect = (e) => {
     const file = e.target.files[0];
@@ -33,7 +32,7 @@ class App extends Component {
     if (file) {
       reader.readAsText(file);
     }
-  }
+  };
 
   saveRuns(idx) {
     const { runs } = this.state;
@@ -47,7 +46,7 @@ class App extends Component {
     const { data, runs, name } = this.state;
     const list = data.map((x, i) => ({ ...data[i], tags: runs[i] }));
     download(JSON.stringify(list), name, 'application/json');
-  }
+  };
 
   render() {
     const {
@@ -55,48 +54,49 @@ class App extends Component {
     } = this.state;
     return (
       <div className="App container">
-
         {/* <input type="file" id="file" onChange={this.handleFileSelect} /> */}
         <div>
           <label className="btn btn-default btn-file" htmlFor="file">
             Browse
-            <input id="file" type="file" style={{ display: 'none' }} onChange={this.handleFileSelect} />
+            <input
+              id="file"
+              type="file"
+              style={{ display: 'none' }}
+              onChange={this.handleFileSelect}
+            />
           </label>
           <span>{name && name !== '' ? name : 'Choose file'}</span>
         </div>
-        {
-          data &&
-          [
-            <button
-              type="button"
-              className="btn btn-default"
-              key="previous"
-              disabled={idx === 0}
-              onClick={() => this.setState({ idx: idx - 1 })}
-            >
-              Previous
-            </button>,
-            <button
-              type="button"
-              className="btn btn-default"
-              key="next"
-              disabled={idx === data.length}
-              onClick={() => this.setState({ idx: idx + 1 })}
-            >
-              Next
-            </button>,
-            <button
-              type="button"
-              className="btn btn-default"
-              key="save"
-              onClick={this.saveAll}
-            >
-              Save
-            </button>,
-          ]
-        }
-        {idx >= 0 && data && data[idx]
-          ? <TextArea
+        {data && [
+          <button
+            type="button"
+            className="btn btn-default"
+            key="previous"
+            disabled={idx === 0}
+            onClick={() => this.setState({ idx: idx - 1 })}
+          >
+            Previous
+          </button>,
+          <button
+            type="button"
+            className="btn btn-default"
+            key="next"
+            disabled={idx === data.length}
+            onClick={() => this.setState({ idx: idx + 1 })}
+          >
+            Next
+          </button>,
+          <button
+            type="button"
+            className="btn btn-default"
+            key="save"
+            onClick={this.saveAll}
+          >
+            Save
+          </button>,
+        ]}
+        {idx >= 0 && data && data[idx] ? (
+          <TextArea
             key="text-area"
             id={`article-${idx}`}
             text={data[idx].content}
@@ -104,7 +104,7 @@ class App extends Component {
             runs={runs[idx]}
             onSaved={this.saveRuns(idx)}
           />
-          : null}
+        ) : null}
       </div>
     );
   }
