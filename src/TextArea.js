@@ -13,7 +13,7 @@ export default class TextArea extends Component {
     runs: PropTypes.objectOf(PropTypes.shape({
       end: PropTypes.number.isRequired,
       type: PropTypes.string.isRequired,
-      prev: PropTypes.number.isRequired,
+      prev: PropTypes.number,
     })).isRequired,
     text: PropTypes.string.isRequired,
     id: PropTypes.string.isRequired,
