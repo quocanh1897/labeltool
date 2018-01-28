@@ -30,7 +30,9 @@ class App extends Component {
         runs: data.map(x => x.tags),
       });
     };
-    reader.readAsText(file);
+    if (file) {
+      reader.readAsText(file);
+    }
   }
 
   saveRuns(idx) {
