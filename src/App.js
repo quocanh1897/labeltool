@@ -54,7 +54,7 @@ class App extends Component {
       idx, data, runs,
     } = this.state;
     return (
-      <div className="App">
+      <div className="App container">
 
         <input type="file" id="file" onChange={this.handleFileSelect} />
         {

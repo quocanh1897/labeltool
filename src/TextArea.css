@@ -4,3 +4,7 @@
   margin: 5px;
   padding: 7px 14px;
 }
+.text-area button {
+  display: block;
+  margin: 5px 0px;
+}
