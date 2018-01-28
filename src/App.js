@@ -1,60 +1,56 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
 import './App.css';
-import _ from 'lodash'
-import TextArea from './TextArea'
-import { download } from './utils'
+import TextArea from './TextArea';
+import { download } from './utils';
+import categories from './categories.json';
+
 class App extends Component {
   constructor() {
     super();
-    const categories = require('./categories.json')
-    categories['normal'] = {
-      'color': '#000000',
-      'shortcut': 'Q'
-    }
+    categories.normal = {
+      color: '#000000',
+      shortcut: 'Q',
+    };
     this.state = {
       idx: -1,
-      categories
-    }
+    };
   }
 
 
   handleFileSelect = (e) => {
-    const file = e.target.files[0]
-    const reader = new FileReader()
-    const _this = this
-    reader.onload = (function (theFile) {
-      return function (e) {
-        const data = JSON.parse(e.target.result)
-        _this.setState({
-          data,
-          name: file.name,
-          idx: 0,
-          runs: data.map(x => x['tags'])
-        })
-      };
-    })(file);
-    reader.readAsText(file)
-
+    const file = e.target.files[0];
+    const reader = new FileReader();
+    const newLocal = this;
+    reader.onload = (ev) => {
+      const data = JSON.parse(ev.target.result);
+      newLocal.setState({
+        data,
+        name: file.name,
+        idx: 0,
+        runs: data.map(x => x.tags),
+      });
+    };
+    reader.readAsText(file);
   }
 
   saveRuns(idx) {
-    const { runs } = this.state
-    const _this = this
-    return r => {
-      runs[idx] = r
-      this.setState({ runs })
-    }
+    const { runs } = this.state;
+    const newLocal = this;
+    return (r) => {
+      runs[idx] = r;
+      newLocal.setState({ runs });
+    };
   }
-  saveAll = (e) => {
-    const { data, runs, name } = this.state
-    const list = data.map((x, i) => ({ ...data[i], tags: runs[i] }))
-    download(JSON.stringify(list), name, 'application/json')
+  saveAll = () => {
+    const { data, runs, name } = this.state;
+    const list = data.map((x, i) => ({ ...data[i], tags: runs[i] }));
+    download(JSON.stringify(list), name, 'application/json');
   }
 
   render() {
-    const { idx, data, categories, runs } = this.state
-    let len = 0
+    const {
+      idx, data, runs,
+    } = this.state;
     return (
       <div className="App">
 
@@ -62,22 +58,22 @@ class App extends Component {
         {
           data &&
           [
-            <button key='previous' disabled={idx === 0} onClick={e => this.setState({ idx: idx - 1 })}>
+            <button key="previous" disabled={idx === 0} onClick={() => this.setState({ idx: idx - 1 })}>
               Previous
             </button>,
-            <button key='next' disabled={idx === data.length} onClick={e => this.setState({ idx: idx + 1 })}>
+            <button key="next" disabled={idx === data.length} onClick={() => this.setState({ idx: idx + 1 })}>
               Next
             </button>,
-            <button key='save' onClick={this.saveAll}>
+            <button key="save" onClick={this.saveAll}>
               Save
-            </button>
+            </button>,
           ]
         }
         {idx >= 0 && data && data[idx]
           ? <TextArea
-            key='text-area'
+            key="text-area"
             id={`article-${idx}`}
-            text={data[idx]['content']}
+            text={data[idx].content}
             categories={categories}
             runs={runs[idx]}
             onSaved={this.saveRuns(idx)}
