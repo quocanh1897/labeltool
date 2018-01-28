@@ -75,6 +75,8 @@ export default class TextArea extends Component {
 
   createButton = (name, idx) => (
     <button
+      type="button"
+      className="btn btn-default"
       onClick={() => this.handleTextSelected(name)}
       key={`${name}-${idx}`}
       style={{ color: this.props.categories[name].color }}
@@ -200,6 +202,8 @@ export default class TextArea extends Component {
             Object.keys(this.props.categories).map(this.createButton)
           }
           <button
+            type="button"
+            className="btn btn-default"
             key="Reset-btn"
             onClick={() => {
               newLocal.setState({
