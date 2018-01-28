@@ -9,7 +9,7 @@ class App extends Component {
     super();
     categories.normal = {
       color: '#FFFFFF',
-      shortcut: 'Q',
+      shortcut: ' ',
     };
     this.state = {
       idx: -1,

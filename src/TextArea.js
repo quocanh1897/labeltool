@@ -79,7 +79,7 @@ export default class TextArea extends Component {
   shortcutListener = [];
 
   handleKeyDown = name => (e) => {
-    if (e.key === this.props.categories[name].shortcut.toLowerCase()) {
+    if (e.key.toLowerCase() === this.props.categories[name].shortcut.toLowerCase()) {
       this.handleTextSelected(name);
     }
   };
@@ -90,7 +90,7 @@ export default class TextArea extends Component {
       className="btn btn-default"
       onClick={() => this.handleTextSelected(name)}
       key={`${name}-${idx}`}
-      style={{ color: this.props.categories[name].color }}
+      style={{ backgroundColor: this.props.categories[name].color }}
     >
       {`${name} (${this.props.categories[name].shortcut})`}
     </button>
