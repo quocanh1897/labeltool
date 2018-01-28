@@ -43,19 +43,17 @@ export default class TextArea extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    if (this.props.text !== nextProps.text) {
-      const text = nextProps.text.split('\n').map(trimNewLine).join('\n');
-      this.setState({
-        text,
-        runs: nextProps.runs ? nextProps.runs : {
-          0: {
-            end: text.length,
-            type: 'normal',
-            prev: null,
-          },
+    const text = nextProps.text.split('\n').map(trimNewLine).join('\n');
+    this.setState({
+      text,
+      runs: nextProps.runs ? nextProps.runs : {
+        0: {
+          end: text.length,
+          type: 'normal',
+          prev: null,
         },
-      });
-    }
+      },
+    });
   }
 
   componentWillUnmount() {
