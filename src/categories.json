@@ -1,38 +1,66 @@
 {
-  "address": {
+  "addr_street": {
     "color": "#C7E3FB",
-    "shortcut": "A"
+    "shortcut": "S"
+  },
+  "addr_district": {
+    "color": "#49C5FB",
+    "shortcut": "D"
+  },
+  "addr_number": {
+    "color": "#49C5FB",
+    "shortcut": "N"
+  },
+  "addr_city": {
+    "color": "#1a95d7",
+    "shortcut": "C"
+  },
+  "addr_ward": {
+    "color": "#6ba0fd",
+    "shortcut": "W"
+  },
+  "addr_other": {
+    "color": "#23d5db",
+    "shortcut": "E"
   },
   "area": {
     "color": "#48D683",
-    "shortcut": "S"
+    "shortcut": "A"
   },
   "price": {
     "color": "#F6FA67",
-    "shortcut": "D"
+    "shortcut": "P"
   },
   "transaction_type": {
     "color": "#FFC0F1",
-    "shortcut": "F"
+    "shortcut": "T"
   },
   "realestate_type": {
     "color": "#F0E4D7",
-    "shortcut": "Q"
+    "shortcut": "R"
   },
   "legal": {
     "color": "#FA8F4C",
-    "shortcut": "W"
+    "shortcut": "L"
   },
   "potential": {
-    "color": "#F98F93",
-    "shortcut": "E"
+    "color": "#e7bb15",
+    "shortcut": "O"
   },
   "surrounding": {
     "color": "#D7B88B",
-    "shortcut": "R"
+    "shortcut": "U"
   },
-  "interior": {
+  "interior_floor": {
     "color": "#F00705",
-    "shortcut": "G"
+    "shortcut": "F"
+  },
+  "interior_room": {
+    "color": "#e37163",
+    "shortcut": "M"
+  },
+  "interior_object": {
+    "color": "#ee5000",
+    "shortcut": "B"
   }
 }
