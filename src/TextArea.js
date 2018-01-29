@@ -180,13 +180,34 @@ export default class TextArea extends Component {
     let currentRuns = 0;
     return (
       <div className="text-area row">
+        <div className="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+          {Object.keys(this.props.categories).map(this.createButton)}
+          <button
+            type="button"
+            className="btn btn-default"
+            key="Reset-btn"
+            onClick={() => {
+              newLocal.setState({
+                runs: {
+                  0: {
+                    end: text.length,
+                    type: 'normal',
+                    prev: null,
+                  },
+                },
+              });
+            }}
+          >
+            Reset
+          </button>
+        </div>
         <div
           key="text-container"
           id={this.props.id}
           ref={function setContainer(container) {
             newLocal.container = container;
           }}
-          className="text-container col-xs-9 col-sm-9 col-md-9 col-lg-9"
+          className="text-container col-xs-12 col-sm-12 col-md-12 col-lg-12"
         >
           {Object.keys(runs).map((start) => {
             const { end, type } = runs[start];
@@ -221,27 +242,6 @@ export default class TextArea extends Component {
               );
             });
           })}
-        </div>
-        <div className="col-xs-2 col-sm-2 col-md-2 col-lg-2">
-          {Object.keys(this.props.categories).map(this.createButton)}
-          <button
-            type="button"
-            className="btn btn-default"
-            key="Reset-btn"
-            onClick={() => {
-              newLocal.setState({
-                runs: {
-                  0: {
-                    end: text.length,
-                    type: 'normal',
-                    prev: null,
-                  },
-                },
-              });
-            }}
-          >
-            Reset
-          </button>
         </div>
       </div>
     );
