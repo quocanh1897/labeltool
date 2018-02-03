@@ -7,10 +7,6 @@
     "color": "#49C5FB",
     "shortcut": "D"
   },
-  "addr_number": {
-    "color": "#49C5FB",
-    "shortcut": "N"
-  },
   "addr_city": {
     "color": "#1a95d7",
     "shortcut": "C"
@@ -19,9 +15,9 @@
     "color": "#6ba0fd",
     "shortcut": "W"
   },
-  "addr_other": {
-    "color": "#23d5db",
-    "shortcut": "E"
+  "position": {
+    "color": "#51A3A3",
+    "shortcut": "P"
   },
   "area": {
     "color": "#48D683",
@@ -29,7 +25,7 @@
   },
   "price": {
     "color": "#F6FA67",
-    "shortcut": "P"
+    "shortcut": "M"
   },
   "transaction_type": {
     "color": "#FFC0F1",
@@ -37,7 +33,7 @@
   },
   "realestate_type": {
     "color": "#F0E4D7",
-    "shortcut": "R"
+    "shortcut": "E"
   },
   "legal": {
     "color": "#FA8F4C",
@@ -57,10 +53,14 @@
   },
   "interior_room": {
     "color": "#e37163",
-    "shortcut": "M"
+    "shortcut": "R"
   },
-  "interior_object": {
-    "color": "#ee5000",
-    "shortcut": "B"
+  "orientation": {
+    "color": "#CB904D",
+    "shortcut": "H"
+  },
+  "project": {
+    "color": "#C3E991",
+    "shortcut": "J"
   }
 }
